@@ -1,0 +1,19 @@
+
+void configurationTMR0()
+{
+    SYSCTL_RCGCTIMER_R|=SYSCTL_RCGCTIMER_R0;
+    TIMER0_CTL_R &= ~TIMER_CTL_TAEN;    /*Se deshabilita el timer*/
+    TIMER0_CFG_R = 0x00000000;
+    TIMER0_TAMR_R = TIMER_TAMR_TAMR_PERIOD;
+    TIMER0_IMR_R |= TIMER_IMR_TATOIM;
+    NVIC_PRI4_R |= (1 << 21);          // Configura la prioridad de la interrupción
+    NVIC_EN0_R|= (1<<19);
+    TIMER0_TAILR_R = 20000000; // 80,000,000 * 0.25 - 1
+    TIMER0_CTL_R |= TIMER_CTL_TAEN;
+
+
+     /*Register 4: Interrupt 0-31 Set Enable (EN0), offset 0x100
+     Register 5: Interrupt 32-63 Set Enable (EN1), offset 0x104
+     Register 6: Interrupt 64-95 Set Enable (EN2), offset 0x108
+     Register 7: Interrupt 96-127 Set Enable (EN3), offset 0x10C*/
+}
